@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ibrahima Dione Niang — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1220;
+    --bg-panel: #101A2C;
+    --bg-panel-2: #0E1626;
+    --line: #223047;
+    --text: #DCE4F0;
+    --text-dim: #8393AC;
+    --text-faint: #4E5F7B;
+    --accent: #2DD4BF;
+    --accent-dim: #1B7A70;
+    --amber: #F0B860;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--accent); color:#04201C; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width:920px; margin:0 auto; padding:0 28px; }
+
+  /* ---------- Scanline / grid backdrop ---------- */
+  .grid-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity:0.18;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
+  }
+
+  /* ---------- Top bar ---------- */
+  header.topbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,18,32,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:920px; margin:0 auto; padding:16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ font-family:var(--mono); font-weight:700; font-size:14px; color:var(--text); }
+  .brand span{ color:var(--accent); }
+  nav.links{ display:flex; gap:26px; font-family:var(--mono); font-size:12.5px; color:var(--text-dim); }
+  nav.links a:hover{ color:var(--accent); }
+  .dot{ display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); margin-right:4px; box-shadow:0 0 8px var(--accent); }
+
+  @media (max-width:640px){ nav.links{ display:none; } }
+
+  /* ---------- Hero ---------- */
+  .hero{ position:relative; z-index:1; padding:100px 0 70px; }
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.08em;
+    color:var(--accent); text-transform:uppercase; margin-bottom:22px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:''; width:24px; height:1px; background:var(--accent); }
+
+  h1.name{
+    font-family:var(--sans); font-weight:800; letter-spacing:-0.02em;
+    font-size:clamp(36px, 6vw, 58px); line-height:1.05; color:#F4F7FB;
+  }
+  h1.name .last{ color:var(--text-dim); font-weight:600; }
+
+  .role{
+    font-family:var(--mono); font-size:16px; color:var(--text-dim); margin-top:16px;
+  }
+  .role .cursor{ display:inline-block; width:8px; height:16px; background:var(--accent); margin-left:2px; vertical-align:-2px; animation:blink 1.1s step-end infinite; }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* terminal card */
+  .term{
+    margin-top:44px;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  .term-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:11px 14px; background:var(--bg-panel-2); border-bottom:1px solid var(--line);
+  }
+  .term-bar .tb{ width:10px; height:10px; border-radius:50%; }
+  .tb1{ background:#F26D6D; } .tb2{ background:#F2C25D; } .tb3{ background:#5DD68A; }
+  .term-bar .title{ margin-left:8px; font-family:var(--mono); font-size:11.5px; color:var(--text-faint); }
+  .term-body{ padding:20px 22px; font-family:var(--mono); font-size:13.5px; color:var(--text-dim); }
+  .term-body .prompt{ color:var(--accent); }
+  .term-body .path{ color:var(--amber); }
+  .term-line{ margin-bottom:6px; }
+  .term-out{ color:var(--text); padding-left:0; }
+  .contact-row{ display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:4px; }
+  .contact-row a{ color:var(--text); border-bottom:1px dotted var(--text-faint); }
+  .contact-row a:hover{ color:var(--accent); border-color:var(--accent); }
+
+  /* ---------- Sections ---------- */
+  section{ position:relative; z-index:1; padding:64px 0; border-top:1px solid var(--line); }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:36px; }
+  .sec-tag{ font-family:var(--mono); font-size:12.5px; color:var(--accent); }
+  .sec-title{ font-size:26px; font-weight:800; color:#F4F7FB; letter-spacing:-0.01em; }
+  .sec-rule{ flex:1; height:1px; background:var(--line); }
+
+  /* ---------- About ---------- */
+  .about-text{ max-width:640px; color:var(--text-dim); font-size:15.5px; }
+  .about-text strong{ color:var(--text); font-weight:600; }
+
+  /* ---------- Skills ---------- */
+  .skills-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(210px,1fr)); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  }
+  .skill-card{ background:var(--bg-panel); padding:20px 22px; }
+  .skill-card h3{
+    font-family:var(--mono); font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--amber); margin-bottom:12px;
+  }
+  .skill-card ul{ list-style:none; }
+  .skill-card li{ font-size:14px; color:var(--text-dim); padding:3px 0; }
+  .skill-card li::before{ content:'▸ '; color:var(--accent-dim); }
+
+  /* ---------- Projects ---------- */
+  .proj-list{ display:flex; flex-direction:column; gap:14px; }
+  .proj{
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:10px;
+    padding:22px 24px; transition:border-color .18s ease, transform .18s ease;
+  }
+  .proj:hover{ border-color:var(--accent-dim); transform:translateY(-2px); }
+  .proj-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .proj-num{ font-family:var(--mono); font-size:12px; color:var(--text-faint); }
+  .proj-name{ font-size:18px; font-weight:700; color:#F4F7FB; margin-top:4px; }
+  .proj-badge{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase;
+    color:var(--accent); border:1px solid var(--accent-dim); border-radius:100px; padding:4px 10px;
+    white-space:nowrap; height:fit-content;
+  }
+  .proj-desc{ color:var(--text-dim); font-size:14.5px; margin-top:10px; max-width:640px; }
+  .proj-desc li{ list-style:none; padding-left:16px; position:relative; margin-top:4px; }
+  .proj-desc li::before{ content:'—'; position:absolute; left:0; color:var(--text-faint); }
+  .proj-stack{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+  .proj-stack span{
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+    background:var(--bg-panel-2); border:1px solid var(--line); border-radius:6px; padding:3px 8px;
+  }
+
+  /* ---------- Formation ---------- */
+  .edu-row{ display:flex; gap:20px; padding:16px 0; border-bottom:1px solid var(--line); }
+  .edu-row:last-child{ border-bottom:none; }
+  .edu-year{ font-family:var(--mono); color:var(--accent); font-size:13px; width:110px; flex-shrink:0; }
+  .edu-what strong{ color:var(--text); font-size:15px; }
+  .edu-what div{ color:var(--text-dim); font-size:13.5px; margin-top:2px; }
+
+  /* ---------- Footer ---------- */
+  footer{ position:relative; z-index:1; padding:60px 0 50px; text-align:center; }
+  footer .big{ font-family:var(--mono); font-size:12.5px; color:var(--text-faint); }
+  footer .cta{ margin-top:18px; }
+  footer .cta a{
+    font-family:var(--mono); font-size:14px; color:var(--bg); background:var(--accent);
+    padding:12px 26px; border-radius:100px; font-weight:700; display:inline-block;
+    transition:transform .15s ease;
+  }
+  footer .cta a:hover{ transform:translateY(-2px); }
+  footer .meta{ margin-top:26px; font-family:var(--mono); font-size:11.5px; color:var(--text-faint); }
+
+  @media (max-width:640px){
+    .edu-row{ flex-direction:column; gap:4px; }
+    .edu-year{ width:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span>idn<span>@</span>portfolio</div>
+    <nav class="links">
+      <a href="#about">à propos</a>
+      <a href="#skills">compétences</a>
+      <a href="#projects">projets</a>
+      <a href="#formation">formation</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none;">
+    <div class="eyebrow">Étudiant en informatique · Dakar, Sénégal</div>
+    <h1 class="name">Ibrahima Dione<br><span class="last">Niang</span></h1>
+    <div class="role">Développeur full-stack &amp; administrateur systèmes<span class="cursor"></span></div>
+
+    <div class="term">
+      <div class="term-bar">
+        <span class="tb tb1"></span><span class="tb tb2"></span><span class="tb tb3"></span>
+        <span class="title">ibrahima@dakar — zsh</span>
+      </div>
+      <div class="term-body">
+        <div class="term-line"><span class="prompt">➜</span> <span class="path">~</span> whoami</div>
+        <div class="term-line term-out">Étudiant en Licence 3 Informatique — UCAD, Faculté des Sciences et Techniques</div>
+        <div class="term-line" style="margin-top:14px;"><span class="prompt">➜</span> <span class="path">~</span> cat contact.txt</div>
+        <div class="contact-row term-out">
+          <a href="mailto:Ibrahimaniang0104@gmail.com">Ibrahimaniang0104@gmail.com</a>
+          <a href="tel:+221781550125">+221 78 155 01 25</a>
+          <span>Zac Mbao, Dakar</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="sec-head">
+      <span class="sec-tag">01</span>
+      <span class="sec-title">À propos</span>
+      <span class="sec-rule"></span>
+    </div>
+    <p class="about-text">
+      Je conçois des solutions techniques de bout en bout : du <strong>déploiement d'infrastructure réseau</strong>
+      à l'<strong>application web ou mobile</strong> qui tourne dessus. Mon travail va de la gestion de serveurs
+      Windows (Active Directory, DHCP, DNS) à des applications complètes en PHP, Django et Android — avec un
+      intérêt particulier pour les projets qui touchent à l'IA appliquée et à la sécurisation des accès.
+    </p>
+  </section>
+
+  <section id="skills">
+    <div class="sec-head">
+      <span class="sec-tag">02</span>
+      <span class="sec-title">Compétences</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Langages</h3>
+        <ul>
+          <li>C</li>
+          <li>C++ (POO, héritage, polymorphisme)</li>
+          <li>Java</li>
+          <li>PHP</li>
+          <li>JavaScript</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Développement Web</h3>
+        <ul>
+          <li>HTML5 / CSS3</li>
+          <li>PHP orienté objet, MySQL</li>
+          <li>Django (PWA)</li>
+          <li>Authentification par sessions</li>
+          <li>CRUD, upload, validation de formulaires</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Mobile &amp; IA</h3>
+        <ul>
+          <li>Développement Android</li>
+          <li>Assistants IA locaux (Ollama)</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Réseaux &amp; Systèmes</h3>
+        <ul>
+          <li>Windows Server (AD, DHCP, GPO, IIS)</li>
+          <li>VirtualBox / VMware</li>
+          <li>DNS interne, FTP Server</li>
+          <li>iRedMail (serveur mail)</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <h3>Langues</h3>
+        <ul>
+          <li>Français — courant</li>
+          <li>Anglais — technique</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="sec-head">
+      <span class="sec-tag">03</span>
+      <span class="sec-title">Projets</span>
+      <span class="sec-rule"></span>
+    </div>
+
+    <div class="proj-list">
+
+      <article class="proj">
+        <div class="proj-top">
+          <div><div class="proj-num">projet · 01</div><div class="proj-name">Application Permis de Conduire</div></div>
+          <span class="proj-badge">Django · PWA</span>
+        </div>
+        <ul class="proj-desc">
+          <li>Participation à la conception du logiciel de l'examen du permis de conduire</li>
+          <li>Développement d'une application web progressive, installable et partiellement disponible hors-ligne</li>
+        </ul>
+        <div class="proj-stack"><span>Django</span><span>Python</span><span>PWA</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top">
+          <div><div class="proj-num">projet · 02</div><div class="proj-name">DevAI — Assistant IA local</div></div>
+          <span class="proj-badge">IA locale</span>
+        </div>
+        <ul class="proj-desc">
+          <li>Conception d'un assistant IA fonctionnant entièrement en local, sans dépendance cloud</li>
+          <li>Intégration de modèles de langage pour l'assistance au développement</li>
+        </ul>
+        <div class="proj-stack"><span>Python</span><span>Ollama</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top">
+          <div><div class="proj-num">projet · 03</div><div class="proj-name">MusicApp — Application Android</div></div>
+          <span class="proj-badge">Mobile</span>
+        </div>
+        <ul class="proj-desc">
+          <li>Application mobile de lecture et de gestion de musique</li>
+          <li>Interface utilisateur native et gestion des fichiers audio</li>
+        </ul>
+        <div class="proj-stack"><span>Android</span><span>Java / Kotlin</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top">
+          <div><div class="proj-num">projet · 04</div><div class="proj-name">Application Restaurant Dakar</div></div>
+          <span class="proj-badge">Web · Carto</span>
+        </div>
+        <ul class="proj-desc">
+          <li>Application web avec carte interactive de restaurants à Dakar</li>
+          <li>Géolocalisation et affichage dynamique des établissements</li>
+        </ul>
+        <div class="proj-stack"><span>Web</span><span>API cartographique</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top">
+          <div><div class="proj-num">projet · 05</div><div class="proj-name">Location de Voitures</div></div>
+          <span class="proj-badge">Web</span>
+        </div>
+        <ul class="proj-desc">
+          <li>Authentification clients et gérants, gestion des réservations et des paiements</li>
+          <li>Gestion des comptes (activation/désactivation), historique, système de favoris</li>
+          <li>Sécurisation des accès de bout en bout</li>
+        </ul>
+        <div class="proj-stack"><span>PHP</span><span>MySQL</span><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top">
+          <div><div class="proj-num">projet · 06</div><div class="proj-name">Gestion de Pharmacie</div></div>
+          <span class="proj-badge">Web</span>
+        </div>
+        <ul class="proj-desc">
+          <li>Système à deux niveaux : administrateur et gérant</li>
+          <li>Gestion des médicaments et des ventes, tableau de bord statistique</li>
+          <li>Authentification via sessions</li>
+        </ul>
+        <div class="proj-stack"><span>PHP</span><span>MySQL</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top">
+          <div><div class="proj-num">projet · 07</div><div class="proj-name">Infrastructure Réseau — Projet Smarttech</div></div>
+          <span class="proj-badge">Systèmes</span>
+        </div>
+        <ul class="proj-desc">
+          <li>Conception et déploiement d'une infrastructure réseau d'entreprise</li>
+          <li>Services Windows Server : Active Directory, DHCP, DNS</li>
+        </ul>
+        <div class="proj-stack"><span>Windows Server</span><span>AD</span><span>DHCP</span><span>DNS</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-top">
+          <div><div class="proj-num">projet · 08</div><div class="proj-name">Gestion Clients / Voitures / Locations</div></div>
+          <span class="proj-badge">C</span>
+        </div>
+        <ul class="proj-desc">
+          <li>Structures de données pour la gestion des clients, véhicules et locations</li>
+          <li>Sauvegarde et chargement depuis fichiers, CRUD complet</li>
+        </ul>
+        <div class="proj-stack"><span>C</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="formation">
+    <div class="sec-head">
+      <span class="sec-tag">04</span>
+      <span class="sec-title">Formation</span>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="edu-list">
+      <div class="edu-row">
+        <div class="edu-year">2025 — 2026</div>
+        <div class="edu-what">
+          <strong>Licence 3 Informatique</strong>
+          <div>Université Cheikh Anta Diop de Dakar (UCAD) — Faculté des Sciences et Techniques</div>
+        </div>
+      </div>
+      <div class="edu-row">
+        <div class="edu-year">2023</div>
+        <div class="edu-what">
+          <strong>Baccalauréat, série S2</strong>
+          <div>Obtenu en 2023</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="big">➜ ~ échangeons</div>
+    <div class="cta"><a href="mailto:Ibrahimaniang0104@gmail.com">Ibrahimaniang0104@gmail.com</a></div>
+    <div class="meta">+221 78 155 01 25 · Zac Mbao, Dakar, Sénégal</div>
+  </div>
+</footer>
+
+</body>
+</html>
